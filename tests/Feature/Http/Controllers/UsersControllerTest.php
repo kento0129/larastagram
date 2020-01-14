@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UsersControllerTest extends TestCase
 {
-    // use DatabaseTransactions;
+    use DatabaseTransactions;
         
     /**
      * 未認証時はログイン画面にリダイレクト
@@ -87,7 +87,6 @@ class UsersControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
-        Storage::fake('public');
         $file = UploadedFile::fake()->image('public.jpg');
         $response = $this->post($url, [
             'id' => $user->id,
@@ -96,7 +95,10 @@ class UsersControllerTest extends TestCase
             'email' => 'test_tarou@test.com',
             'profile_photo' => $file,
         ]);
+        
         $user = User::where('id',$user->id)->first();
+        
+        //データベースに登録された値が存在するかチェック
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'name' => 'テスト太郎',
@@ -104,7 +106,9 @@ class UsersControllerTest extends TestCase
             'email' => 'test_tarou@test.com',
             'profile_photo' => $user->profile_photo,
         ]);
-        // Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
+        
+        //ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
     }
     
     /**
@@ -128,7 +132,10 @@ class UsersControllerTest extends TestCase
             'profile_photo' => null
         ])
              ->assertSessionHasErrors(array('name', 'user_name', 'email', 'profile_photo'));
+             
         $user = User::where('id',$user->id)->first();
+        
+        //データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('users', [
             'name' => '',
             'user_name' => '',
@@ -145,38 +152,43 @@ class UsersControllerTest extends TestCase
     public function successfulUpdateProfileImage()
     {
         //プロフィール画像投稿済みのデータを作成
-        Storage::fake('public');
-        $file = UploadedFile::fake()->image('public.jpg');
+        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
+        Storage::disk('public')->putFileAs('user_images', $file, $file->getClientOriginalName(), 'public');
         $user = factory(User::class)->create([
             'password'  => bcrypt('secret'),
-            'profile_photo' => $file,
+            'profile_photo' => $file->getClientOriginalName(),
         ]);
+        
+        //ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
         
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
         
         //新たなプロフィール画像を投稿
-        // Storage::fake('public');
-        // $file = UploadedFile::fake()->image('public.jpg');
-        // $response = $this->post($url, [
-        //     'id' => $user->id,
-        //     'name' => 'テスト太郎11',
-        //     'user_name' => 'test_tarou11',
-        //     'email' => 'test_tarou11@test.com',
-        //     'profile_photo' => $file,
-        // ]);
+        $file = UploadedFile::fake()->image('public.jpg');
+        $this->post($url, [
+            'id' => $user->id,
+            'name' => 'テスト太郎11',
+            'user_name' => 'test_tarou11',
+            'email' => 'test_tarou11@test.com',
+            'profile_photo' => $file,
+        ]);
         
-        // Storage::disk('public')->assertExists('user_images/'.$/user->post_photo);
+        $user = User::where('id',$user->id)->first();
         
-        // $user = User::where('id',$user->id)->first();
-        // $this->assertDatabaseHas('users', [
-        //     'id' => $user->id,
-        //     'name' => 'テスト太郎',
-        //     'user_name' => 'test_tarou',
-        //     'email' => 'test_tarou@test.com',
-        //     'profile_photo' => $user->profile_photo,
-        // ]);
+        //データベースに値が登録されているかチェック
+        $this->assertDatabaseHas('users', [
+           'id' => $user->id,
+            'name' => $user->name,
+            'user_name' => $user->user_name,
+            'email' => $user->email,
+            'profile_photo' => $user->profile_photo,
+        ]);
+        
+        //ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
     }
 
     /**
@@ -186,29 +198,40 @@ class UsersControllerTest extends TestCase
      */
     public function failedUpdateProfileImage()
     {
+        //プロフィール画像投稿済みのデータを作成
+        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
+        Storage::disk('public')->putFileAs('user_images', $file, $file->getClientOriginalName(), 'public');
         $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
+            'password'  => bcrypt('secret'),
+            'profile_photo' => $file->getClientOriginalName(),
         ]);
+        
+        //ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
+        
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
-        Storage::fake('public');
-        $file = UploadedFile::fake()->image('public.jpg');
-        // $response = $this->post($url, [
-        //     'id' => $user->id,
-        //     'name' => 'テスト太郎',
-        //     'user_name' => 'test_tarou',
-        //     'email' => 'test_tarou@test.com',
-        //     'profile_photo' => $file,
-        // ]);
-        // $user = User::where('id',$user->id)->first();
-        // $this->assertDatabaseHas('users', [
-        //     'id' => $user->id,
-        //     'name' => 'テスト太郎',
-        //     'user_name' => 'test_tarou',
-        //     'email' => 'test_tarou@test.com',
-        //     'profile_photo' => $user->profile_photo,
-        // ]);
+        
+        //新たなプロフィール画像を投稿
+        $file = '';
+        $this->post($url, [
+            'id' => $user->id,
+            'name' => 'テスト太郎12',
+            'user_name' => 'test_tarou12',
+            'email' => 'test_tarou12@test.com',
+            'profile_photo' => null,
+        ])
+             ->assertSessionHasErrors('profile_photo');
+
+        // データベースに値が登録されていないかチェック
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+            'name' => 'テスト太郎12',
+            'user_name' => 'test_tarou12',
+            'email' => 'test_tarou12@test.com',
+            'profile_photo' => null,
+        ]);
     }
 
     /**
@@ -248,6 +271,8 @@ class UsersControllerTest extends TestCase
             'new_password_confirmation' => 'secretsecret',
         ]);
         $user = User::where('id',$user->id)->first();
+        
+        // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('users', [
                 'id' => $user->id,
                 'password' => $user->password,
@@ -275,6 +300,8 @@ class UsersControllerTest extends TestCase
         ])
              ->assertSessionHasErrors(array('old_password', 'new_password','new_password_confirmation'));
         $user = User::where('id',$user->id)->first();
+        
+        //データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('users', [
                 'id' => $user->id,
                 'password' => '',
