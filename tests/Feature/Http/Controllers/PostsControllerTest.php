@@ -65,10 +65,14 @@ class PostsControllerTest extends TestCase
             'post_photo' => $file
         ]);
         $post = Post::where('user_id',$user->id)->first();
+        
+        // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('posts', [
             'caption' => $post->caption,
             'post_photo' => $post->post_photo,
         ]);
+        
+        //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
     }
     
@@ -90,6 +94,8 @@ class PostsControllerTest extends TestCase
             'post_photo' => ''
         ])
              ->assertSessionHasErrors(array('caption', 'post_photo'));
+             
+        // データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('posts', [
             'caption' => '',
             'post_photo' => ''
@@ -109,15 +115,23 @@ class PostsControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
+        
         Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
+        
         $post = factory(Post::class)->create([
             'user_id'  => $user->id,
             'post_photo' => $file->getClientOriginalName(),
         ]);
+        
+        // データベースに値が登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
+        
+        
         $url = route('posts.delete',$post->id);
         $this->get($url)
              ->assertRedirect('/');
+             
+        // データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('posts', [
             'caption' => $post->caption,
             'post_photo' => $post->post_photo,
@@ -147,6 +161,8 @@ class PostsControllerTest extends TestCase
         $url = route('posts.delete',null);
         $this->get($url)
              ->assertStatus(404);
+             
+        // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('posts', [
             'caption' => $post->caption,
             'post_photo' => $post->post_photo,
