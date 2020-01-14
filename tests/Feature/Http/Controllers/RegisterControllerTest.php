@@ -39,6 +39,8 @@ class RegisterControllerTest extends TestCase
             'password_confirmation' => 'secret'
         ])
              ->assertRedirect('/');
+             
+        //データベースに値が登録されているかチェック
         $this->assertDatabaseHas('users', [
             'name' => 'test01',
             'user_name' => 'test01',
@@ -62,6 +64,8 @@ class RegisterControllerTest extends TestCase
             'password_confirmation' => ''
         ])
              ->assertSessionHasErrors(array('name', 'user_name','email','password'));
+             
+        // データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('users', [
             'name' => '',
             'user_name' => '',
