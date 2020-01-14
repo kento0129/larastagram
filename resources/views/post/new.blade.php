@@ -18,7 +18,11 @@
           <div class="form-group row mt-2">
             <div class="col-auto pr-0">
               @if (Auth::user()->profile_photo)
-                <img class="post-profile-icon round-img" src="{{ Auth::user()->profile_photo }}"/>
+                @if (app()->isLocal() || app()->runningUnitTests())
+                  <img class="post-profile-icon round-img" src="{{ asset('storage/user_images/' . Auth::user()->profile_photo ) }}"/>
+                @else
+                  <img class="round-img" src="{{ Auth::user()->profile_photo }}"/>
+                @endif
               @else
                 <img class="post-profile-icon round-img" src="{{ asset('/images/blank_profile.png') }}"/>
               @endif
