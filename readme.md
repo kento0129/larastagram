@@ -1,6 +1,3 @@
-<p align="center"><img src="https://larastagram-backet.s3-ap-northeast-1.amazonaws.com/logo.png"></p>
-
-
 Larastagram
 ====== 
 
