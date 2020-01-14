@@ -50,7 +50,7 @@ Route::group(['prefix' => 'likes'], function() {
 
 Route::group(['prefix' => 'comments'], function() {
   //コメント投稿処理
-  Route::post('/new/{comment_id}','CommentsController@store')->name('comments.new');
+  Route::post('/posts/{post_id}','CommentsController@store')->name('comments.posts');
   //コメント取消処理
   Route::get('/delete/{comment_id}', 'CommentsController@destroy')->name('comments.delete');
 });
