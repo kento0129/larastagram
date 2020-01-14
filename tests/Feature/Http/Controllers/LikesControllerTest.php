@@ -193,7 +193,7 @@ class LikesControllerTest extends TestCase
             'user_id' => $user->id,
         ]);
         
-        //$post_idを空にしてgetリクエストで送信する。
+        //$like_idを空にしてgetリクエストで送信する。
         $like_id = $like->id;
         $like_id = '';
   
