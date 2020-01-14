@@ -43,14 +43,14 @@ Route::group(['prefix' => 'posts'], function() {
 
 Route::group(['prefix' => 'likes'], function() {
   //いいね処理
-  Route::get('/{post_id}', 'LikesController@store');
+  Route::get('/posts/{post_id}', 'LikesController@store')->name('likes.posts');
   //いいね取消処理
-  Route::get('/delete/{like_id}', 'LikesController@destroy');
+  Route::get('/delete/{like_id}', 'LikesController@destroy')->name('likes.delete');
 });
 
 Route::group(['prefix' => 'comments'], function() {
   //コメント投稿処理
-  Route::post('/{comment_id}','CommentsController@store');
+  Route::post('/new/{comment_id}','CommentsController@store')->name('comments.new');
   //コメント取消処理
-  Route::get('/delete/{comment_id}', 'CommentsController@destroy');
+  Route::get('/delete/{comment_id}', 'CommentsController@destroy')->name('comments.delete');
 });
