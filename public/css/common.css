@@ -1,0 +1,15 @@
+body {
+  background-color: #fafafa;
+  font-size: 14px;
+  color: #262626;
+}
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.omit-letter {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

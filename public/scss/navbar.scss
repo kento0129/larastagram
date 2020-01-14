@@ -1,0 +1,67 @@
+.navbar {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, .0975);
+  height: 77px;
+  &__brand {
+    height: 41px;
+    width: 210px;
+    background-size: 120px;
+  }
+  &__mainLogo {
+    background-repeat: no-repeat;
+    background-image: url("/images/logo.png"); 
+  }
+  &-nav {
+    margin: 0 0 0 auto;
+    & > li {
+      margin-left: 20px;
+      &:first-child {
+        margin-left: 0;
+      }
+      .commonNavIcon {
+        height: 24px;
+        width: 24px;
+        background-size: 22px !important;
+        background-repeat: no-repeat;
+      }
+      .profile-icon {
+        background-image: url("/images/parts3.png");
+      }
+    }
+  }
+}
+
+
+
+// .navbar {
+//   background-color: #fff;
+//   border-bottom: 1px solid rgba(0, 0, 0, .0975);
+//   height: 77px;
+//   &__brand {
+//     height: 65px;
+//     width: 210px;
+//     background-size: 210px;
+//   }
+//   &__mainLogo {
+//     background-repeat: no-repeat;
+//     background-image: url("/images/logo.png");
+//   }
+// }
+//   &-nav {
+//     & > li {
+//       margin-left: 20px;
+//       &:first-child {
+//         margin-left: 0;
+//       }
+//       .commonNavIcon {
+//         height: 24px;
+//         width: 24px;
+//         background-size: 22px !important;
+//         background-repeat: no-repeat;
+//       }
+//       .profile-icon {
+//         background-image: url("/images/parts3.png");
+//       }
+//     }
+//   }
+// }
