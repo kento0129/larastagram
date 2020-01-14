@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Auth;
+use Validator;
 use App\User;
 use App\Rules\AlphaNumeric;
 use App\Rules\DisagreementPassword;
 use App\Rules\OldPassword;
-use Auth;
-use Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
