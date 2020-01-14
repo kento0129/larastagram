@@ -4,53 +4,51 @@
 Larastagram
 ====== 
 
+## 初めに
+Laravel5.5を用いてinstagramのCloneアプリケーションを作成。<br>
+作成した目的は自身のスキルアップの為に作成し、今後知識が増えるたびに新しい機能追加を行う予定。
+
 ## 概要
-kkk
+- Laravelにて開発。
+- HTML/CSS/Bootstrapを使用して、実際のInstagramを意識したデザイン。
+- 画像投稿・一覧表示・削除機能、いいね機能、コメント機能を実装。
+- ログイン機能、ユーザー編集・詳細表示画面、パスワード変更機能を実装。
+- バリデーションエラーの日本語化を実施。
+- 独自のバリデーションルール実装
+- PHPUnitを用いてのFeatureテストを実装
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## 環境、フレームワーク
+- PHP 7.2.24
+- Laravel 5.5.48
+- Bootstrap 4
+- mysql  Ver 14.14
+- Heroku Postgres
+- heroku
+- Amazon S3
+- AWS Cloud9
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## URL一覧
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
-
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+URL | 画面 |
+----| ---- |
+http://{domain}/admin/login | ログイン |
+http://{domain}/admin/ | ダッシュボード | 
+http://{domain}/admin/admins | 管理者一覧 |
+http://{domain}/admin/admins/create | 管理者作成 |
+http://{domain}/admin/admins/{admin_id} | 管理者詳細 |
+http://{domain}/admin/admins/{admin_id}/edit | 管理者編集 |
+http://{domain}/admin/users | ユーザ一覧 |
+http://{domain}/admin/users/create | ユーザ作成 |
+http://{domain}/admin/users/{user_id} | ユーザ詳細 |
+http://{domain}/admin/users/{user_id}/edit | ユーザ編集 |
+http://{domain}/admin/tasks | タスク一覧 |
+http://{domain}/admin/tasks/create | タスク作成 |
+http://{domain}/admin/tasks/{user_id} | タスク詳細 |
+http://{domain}/admin/tasks/{user_id}/edit | タスク編集 |
+http://{domain}/login | ログイン |
+http://{domain}/ | ダッシュボード |
+http://{domain}/tasks | タスク一覧 |
+http://{domain}/tasks/create | タスク作成 |
+http://{domain}/tasks/{task_id} | タスク詳細 |
+http://{domain}/tasks/{task_id}/edit | タスク編集 |
+http://{domain}/profiles/edit | プロフィール編集 |
