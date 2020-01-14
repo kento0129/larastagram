@@ -123,7 +123,7 @@ class PostsControllerTest extends TestCase
             'post_photo' => $file->getClientOriginalName(),
         ]);
         
-        // データベースに値が登録されているかチェック
+        // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
         
         
@@ -152,11 +152,14 @@ class PostsControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
+        
         Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
         $post = factory(Post::class)->create([
             'user_id'  => $user->id,
             'post_photo' => $file->getClientOriginalName(),
         ]);
+        
+        //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
         $url = route('posts.delete',null);
         $this->get($url)
