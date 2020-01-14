@@ -85,8 +85,6 @@ class UsersController extends Controller
         {
             $filename = $user->id . '_' . 'user_' . date('YmdHis') . '.' . $request->profile_photo->getClientOriginalExtension();
             $image = $request->file('profile_photo');
-            $path = Storage::disk('s3')->putFileAs('user_images', $image, $filename ,'public');
-            $user->profile_photo = Storage::disk('s3')->url($path);
 
             // テスト環境, ローカル環境用の記述
             if (app()->isLocal() || app()->runningUnitTests())
