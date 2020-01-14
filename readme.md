@@ -16,16 +16,19 @@ Laravel5.5を用いてinstagramのCloneアプリケーションを作成。<br>
 - バリデーションエラーの日本語化を実施。
 - 独自のバリデーションルール実装
 - PHPUnitを用いてのFeatureテストを実装
+- herokuでは画像をAWSでアップロードし、ローカルではパブリックディスクにアップロード
 
 ## 環境、フレームワーク
-- PHP 7.2.24
-- Laravel 5.5.48
+- PHP 7.2
+- Laravel 5.5
 - Bootstrap 4
 - mysql  Ver 14.14
 - Heroku Postgres
 - heroku
 - Amazon S3
 - AWS Cloud9
+
+## インストール
 
 ## URL一覧
 
