@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PostsControllerTest extends TestCase
 {
-    // use DatabaseTransactions;
+    use DatabaseTransactions;
     
     /**
      * 未認証時はログイン画面にリダイレクト
