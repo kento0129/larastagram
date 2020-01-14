@@ -43,7 +43,7 @@
               @if ($post->likedBy(Auth::user())->count() > 0)
                 <a class="loved hide-text" data-remote="true" rel="nofollow" data-method="DELETE" href="/likes/delete/{{ $post->likedBy(Auth::user())->firstOrFail()->id }}">いいねを取り消す</a>
               @else
-                <a class="love hide-text" data-remote="true" rel="nofollow" data-method="POST" href="/likes/{{ $post->id }}">いいね</a>
+                <a class="love hide-text" data-remote="true" rel="nofollow" data-method="POST" href="/likes/posts/{{ $post->id }}">いいね</a>
               @endif
             </div>
             <a class="comment"></a>
@@ -66,7 +66,7 @@
           <a class="light-color post-time no-text-decoration">{{ $post->created_at }}</a>
           <hr>
           <div class="row actions" id="comment-form-post-{{ $post->id }}">
-            <form class="w-100" id="new_comment" action="/comments/{{ $post->id }}" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓" />
+            <form class="w-100" id="new_comment" action="/comments/posts/{{ $post->id }}" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓" />
             {{csrf_field()}} 
               <input value="{{ Auth::user()->id }}" type="hidden" name="user_id" />
               <input value="{{ $post->id }}" type="hidden" name="post_id" />
