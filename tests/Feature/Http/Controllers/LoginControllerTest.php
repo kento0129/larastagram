@@ -42,9 +42,7 @@ class LoginControllerTest extends TestCase
      */
     public function successfulToLogin() 
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $response = $this->post('login', [
             'email'    => $user->email,
@@ -61,9 +59,7 @@ class LoginControllerTest extends TestCase
      */
     public function failureToLogin()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $response = $this->post('login', [
             'email'    => 'test@test.com',
