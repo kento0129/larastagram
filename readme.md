@@ -28,9 +28,13 @@ Laravel5.5を用いてinstagramのCloneアプリケーションを作成。<br>
 ## インストール
 - git clone https://github.com/kento0129/larastagram.git projectname
 - cd projectname
-- composer install
-- databaseを作成し、.envファイルを修正
+- composer update
+- create database [データベース名];
+- .env.exampleを.envにリネーム
+- .envを環境に合わせて修正
+- php artisan key:generate
 - php artisan migrate
+- php artisan serve
 
 ## Composer で追加したパッケージ
 - composer require league/flysystem-aws-s3-v3
