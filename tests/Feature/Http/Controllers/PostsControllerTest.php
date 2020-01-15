@@ -58,8 +58,9 @@ class PostsControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('posts');
-        Storage::fake('public');
+        
         $file = UploadedFile::fake()->image('public.jpg');
+        
         $response = $this->post($url, [
             'caption' => 'テスト',
             'post_photo' => $file
@@ -74,6 +75,9 @@ class PostsControllerTest extends TestCase
         
         //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
+        
+        //テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -89,6 +93,9 @@ class PostsControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('posts');
+        
+        $file = UploadedFile::fake()->image('public.jpg');
+        
         $this->post($url, [
             'caption' => '',
             'post_photo' => ''
@@ -114,13 +121,14 @@ class PostsControllerTest extends TestCase
         ]);
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
         
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
+        $file = UploadedFile::fake()->image('public.jpg');
+        $filename = $user->id . '_' . 'post_' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('post_images', $file, $filename, 'public');
         
         $post = factory(Post::class)->create([
             'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
+            'post_photo' => $filename,
         ]);
         
         // ファイルが登録されているかチェック
@@ -151,16 +159,19 @@ class PostsControllerTest extends TestCase
         ]);
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
         
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
+        $file = UploadedFile::fake()->image('public.jpg');
+        $filename = $user->id . '_' . 'post_' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('post_images', $file, $filename, 'public');
+        
         $post = factory(Post::class)->create([
             'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
+            'post_photo' => $filename,
         ]);
         
         //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
+        
         $url = route('posts.delete',null);
         $this->get($url)
              ->assertStatus(404);
@@ -171,5 +182,8 @@ class PostsControllerTest extends TestCase
             'post_photo' => $post->post_photo,
             'user_id' => $user->id,
         ]);
+        
+        //テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
 }
