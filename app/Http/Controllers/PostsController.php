@@ -73,7 +73,7 @@ class PostsController extends Controller
     
     public function destroy($post_id)
     {
-        $post = Post::find($post_id);
+        $post = Post::findOrFail($post_id);
         
         // テスト環境, ローカル環境用の記述
         if (app()->isLocal() || app()->runningUnitTests())

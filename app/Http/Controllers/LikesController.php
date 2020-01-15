@@ -29,7 +29,7 @@ class LikesController extends Controller
     
     public function destroy(Request $request)
     {
-        $like = Like::find($request->like_id);
+        $like = Like::findOrFail($request->like_id);
         $like->delete();
         
         // 「/」 ルートにリダイレクト
