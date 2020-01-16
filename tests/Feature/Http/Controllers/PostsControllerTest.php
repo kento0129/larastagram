@@ -128,6 +128,9 @@ class PostsControllerTest extends TestCase
             'post_photo' => $post->post_photo,
             'user_id' => $post->user_id,
         ]);
+        
+        // ファイルが登録されていないかチェック
+        Storage::disk('public')->assertMissing('post_images/'.$post->post_photo);
     }
     
     /**
@@ -155,7 +158,10 @@ class PostsControllerTest extends TestCase
             'user_id' => $post->user_id,
         ]);
         
-        //テスト終了後ファイル削除
+        //ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
+        
+        // テスト終了後ファイル削除
         Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
 }
