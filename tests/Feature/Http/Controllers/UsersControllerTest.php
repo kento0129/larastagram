@@ -79,7 +79,9 @@ class UsersControllerTest extends TestCase
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
+        
         $file = UploadedFile::fake()->image('public.jpg');
+        
         $response = $this->post($url, [
             'id' => $user->id,
             'name' => 'テスト太郎',
@@ -101,6 +103,9 @@ class UsersControllerTest extends TestCase
         
         //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
+        
+        //テスト終了後ファイル削除
+        Storage::disk('public')->delete('user_images/'.$user->profile_photo);
     }
     
     /**
@@ -142,15 +147,15 @@ class UsersControllerTest extends TestCase
     public function successfulUpdateProfileImage()
     {
         //プロフィール画像投稿済みのデータを作成
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        UploadedFile::fake()->image('public.jpg')->storeAs('public/post_images','test.jpg');
-        Storage::disk('public')->putFileAs('user_images', $file, $file->getClientOriginalName(), 'public');
+        $file_name = date('YmdHis'). '_' .'public.jpg';
+        $file = UploadedFile::fake()->image('public.jpg')->storeAs('public/user_images', $file_name);
+
         $user = factory(User::class)->create([
-            'profile_photo' => $file->getClientOriginalName(),
+            'profile_photo' => $file_name,
         ]);
         
         //ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
+        Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
         
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
@@ -158,6 +163,7 @@ class UsersControllerTest extends TestCase
         
         //新たなプロフィール画像を投稿
         $file = UploadedFile::fake()->image('public.jpg');
+        
         $this->post($url, [
             'id' => $user->id,
             'name' => 'テスト太郎11',
@@ -170,7 +176,7 @@ class UsersControllerTest extends TestCase
         
         //データベースに値が登録されているかチェック
         $this->assertDatabaseHas('users', [
-           'id' => $user->id,
+          'id' => $user->id,
             'name' => $user->name,
             'user_name' => $user->user_name,
             'email' => $user->email,
@@ -178,7 +184,10 @@ class UsersControllerTest extends TestCase
         ]);
         
         //ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
+        Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
+        
+        //テスト終了後ファイル削除
+        Storage::disk('public')->delete('user_images/'.$user->profile_photo);
     }
 
     /**
@@ -189,15 +198,15 @@ class UsersControllerTest extends TestCase
     public function failedUpdateProfileImage()
     {
         //プロフィール画像投稿済みのデータを作成
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('user_images', $file, $file->getClientOriginalName(), 'public');
+        $file_name = date('YmdHis'). '_' .'public.jpg';
+        $file = UploadedFile::fake()->image('public.jpg')->storeAs('public/user_images', $file_name);
+
         $user = factory(User::class)->create([
-            'password'  => bcrypt('secret'),
-            'profile_photo' => $file->getClientOriginalName(),
+            'profile_photo' => $file_name,
         ]);
         
         //ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('user_images/'.$user->post_photo);
+        Storage::disk('public')->assertExists('user_images/'.$user->profile_photo);
         
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
@@ -222,6 +231,9 @@ class UsersControllerTest extends TestCase
             'email' => 'test_tarou12@test.com',
             'profile_photo' => null,
         ]);
+        
+        //テスト終了後ファイル削除
+        Storage::disk('public')->delete('user_images/'.$user->profile_photo);
     }
 
     /**
