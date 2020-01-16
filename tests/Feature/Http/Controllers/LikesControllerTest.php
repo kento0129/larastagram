@@ -24,17 +24,7 @@ class LikesControllerTest extends TestCase
      */
     public function unauthenticatedWhenLoginScreenRedirect()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
+        $post = factory(Post::class)->create();
         
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
@@ -43,6 +33,9 @@ class LikesControllerTest extends TestCase
         $url = route('likes.posts',$post->id);
         $this->get($url)
              ->assertRedirect('/login');
+             
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -52,21 +45,12 @@ class LikesControllerTest extends TestCase
      */
     public function successfulToLikeProcess()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $post = factory(Post::class)->create();
+        
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($post->user)
              ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
-        
+
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
         
@@ -77,8 +61,11 @@ class LikesControllerTest extends TestCase
         // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('likes', [
             'post_id' => $post->id,
-            'user_id' => $user->id,
+            'user_id' => $post->user_id,
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -88,20 +75,11 @@ class LikesControllerTest extends TestCase
      */
     public function failedToLikeProcess()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $post = factory(Post::class)->create();
+        
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($post->user)
              ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
         
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
@@ -117,8 +95,11 @@ class LikesControllerTest extends TestCase
         // データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('likes', [
             'post_id' => $post->id,
-            'user_id' => $user->id,
+            'user_id' => $post->user_id,
         ]);
+
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -128,28 +109,12 @@ class LikesControllerTest extends TestCase
      */
     public function successfulToLikeCancelProcess()
     {
-       $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $this->assertFalse(Auth::check());
-        $this->actingAs($user)
-             ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
+        $like = factory(Like::class)->create();
+        $this->actingAs($like->post->user);
+        $this->assertTrue(Auth::check());
         
         // ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
-        
-        $like = factory(Like::class)->create([
-            'post_id'  => $post->id,
-            'user_id' => $user->id,
-        ]);
+        Storage::disk('public')->assertExists('post_images/'.$like->post->post_photo);
         
         $url = route('likes.delete',$like->id);
         $this->get($url)
@@ -161,6 +126,9 @@ class LikesControllerTest extends TestCase
             'post_id' => $like->post_id,
             'user_id' => $like->user_id,
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$like->post->post_photo);
     }
     
     /**
@@ -170,29 +138,13 @@ class LikesControllerTest extends TestCase
      */
     public function failedToLikeCancelProcess()
     {
-       $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $this->assertFalse(Auth::check());
-        $this->actingAs($user)
-             ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
-        
+        $like = factory(Like::class)->create();
+        $this->actingAs($like->post->user);
+        $this->assertTrue(Auth::check());
+
         // ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
-        
-        $like = factory(Like::class)->create([
-            'post_id'  => $post->id,
-            'user_id' => $user->id,
-        ]);
-        
+        Storage::disk('public')->assertExists('post_images/'.$like->post->post_photo);
+
         //$like_idを空にしてgetリクエストで送信する。
         $like_id = $like->id;
         $like_id = '';
@@ -207,5 +159,8 @@ class LikesControllerTest extends TestCase
             'post_id' => $like->post_id,
             'user_id' => $like->user_id,
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$like->post->post_photo);
     }
 }

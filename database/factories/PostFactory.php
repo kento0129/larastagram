@@ -16,6 +16,6 @@ $factory->define(App\Post::class, function (Faker $faker) {
             return factory(App\User::class)->create()->id;
         },
         'post_photo' => $file_name,
-        'caption' => 'テスト',
+        'caption' => $faker->text,
     ];
 });
