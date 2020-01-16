@@ -35,9 +35,7 @@ class PostsControllerTest extends TestCase
      */
     public function displayPostsListScreen()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $this->actingAs($user)
              ->assertTrue(Auth::check());
@@ -53,7 +51,6 @@ class PostsControllerTest extends TestCase
     public function successfulToNewlyPosts()
     {
         $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
         ]);
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
@@ -87,9 +84,7 @@ class PostsControllerTest extends TestCase
      */
     public function failedToNewlyPosts()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create([]);
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('posts');
@@ -116,25 +111,13 @@ class PostsControllerTest extends TestCase
      */
     public function successfulDeletingPosts()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $this->actingAs($user);
+        $post = factory(Post::class)->create([]);
+        $this->actingAs($post->user);
         $this->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image('public.jpg');
-        $filename = $user->id . '_' . 'post_' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
-        Storage::disk('public')->putFileAs('post_images', $file, $filename, 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $filename,
-        ]);
-        
+
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
-        
-        
+
         $url = route('posts.delete',$post->id);
         $this->get($url)
              ->assertRedirect('/');
@@ -143,7 +126,7 @@ class PostsControllerTest extends TestCase
         $this->assertDatabaseMissing('posts', [
             'caption' => $post->caption,
             'post_photo' => $post->post_photo,
-            'user_id' => $user->id,
+            'user_id' => $post->user_id,
         ]);
     }
     
@@ -154,20 +137,9 @@ class PostsControllerTest extends TestCase
      */
     public function failedDeletingPosts()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $this->actingAs($user);
+        $post = factory(Post::class)->create();
+        $this->actingAs($post->user);
         $this->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image('public.jpg');
-        $filename = $user->id . '_' . 'post_' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
-        Storage::disk('public')->putFileAs('post_images', $file, $filename, 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $filename,
-        ]);
         
         //ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
@@ -180,7 +152,7 @@ class PostsControllerTest extends TestCase
         $this->assertDatabaseHas('posts', [
             'caption' => $post->caption,
             'post_photo' => $post->post_photo,
-            'user_id' => $user->id,
+            'user_id' => $post->user_id,
         ]);
         
         //テスト終了後ファイル削除
