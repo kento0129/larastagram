@@ -22,9 +22,7 @@ class UsersControllerTest extends TestCase
      */
     public function unauthenticatedWhenLoginScreenRedirect()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         
         //ユーザ詳細画面
@@ -47,9 +45,7 @@ class UsersControllerTest extends TestCase
      */
     public function displayUserDetailScreen()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $this->actingAs($user)
              ->assertTrue(Auth::check());
@@ -64,9 +60,7 @@ class UsersControllerTest extends TestCase
      */
     public function displayUserEditScreen()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $this->actingAs($user)
              ->assertTrue(Auth::check());
@@ -81,9 +75,7 @@ class UsersControllerTest extends TestCase
      */
     public function successfulToUserUpdate()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
@@ -118,9 +110,7 @@ class UsersControllerTest extends TestCase
      */
     public function failedToUserUpdate()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.update');
@@ -153,9 +143,9 @@ class UsersControllerTest extends TestCase
     {
         //プロフィール画像投稿済みのデータを作成
         $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
+        UploadedFile::fake()->image('public.jpg')->storeAs('public/post_images','test.jpg');
         Storage::disk('public')->putFileAs('user_images', $file, $file->getClientOriginalName(), 'public');
         $user = factory(User::class)->create([
-            'password'  => bcrypt('secret'),
             'profile_photo' => $file->getClientOriginalName(),
         ]);
         
@@ -241,9 +231,7 @@ class UsersControllerTest extends TestCase
      */
     public function displayPasswordEditScreen()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->assertFalse(Auth::check());
         $this->actingAs($user)
              ->assertTrue(Auth::check());
@@ -258,9 +246,7 @@ class UsersControllerTest extends TestCase
      */
     public function successfulToPasswordChange()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.password.change');
@@ -270,6 +256,7 @@ class UsersControllerTest extends TestCase
             'new_password' => 'secretsecret',
             'new_password_confirmation' => 'secretsecret',
         ]);
+        
         $user = User::where('id',$user->id)->first();
         
         // データベースに値が登録されているかチェック
@@ -286,9 +273,7 @@ class UsersControllerTest extends TestCase
      */
     public function failedToPasswordChange()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $user = factory(User::class)->create();
         $this->actingAs($user);
         $this->assertTrue(Auth::check());
         $url = route('users.password.change');
@@ -299,6 +284,7 @@ class UsersControllerTest extends TestCase
             'new_password_confirmation' => '',
         ])
              ->assertSessionHasErrors(array('old_password', 'new_password','new_password_confirmation'));
+             
         $user = User::where('id',$user->id)->first();
         
         //データベースに値が登録されていないかチェック
