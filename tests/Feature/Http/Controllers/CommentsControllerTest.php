@@ -24,17 +24,7 @@ class CommentsControllerTest extends TestCase
      */
     public function unauthenticatedWhenLoginScreenRedirect()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
+        $post = factory(Post::class)->create();
         
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
@@ -46,6 +36,9 @@ class CommentsControllerTest extends TestCase
             'comment' => 'テキストテキスト',
         ])
              ->assertRedirect('/login');
+    
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -55,20 +48,10 @@ class CommentsControllerTest extends TestCase
      */
     public function commentPostsProcessingSuccessful()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $post = factory(Post::class)->create();
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($post->user)
              ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
         
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
@@ -84,6 +67,9 @@ class CommentsControllerTest extends TestCase
             'post_id' => $post->id,
             'comment' => 'テキストテキスト',
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -93,21 +79,11 @@ class CommentsControllerTest extends TestCase
      */
     public function commentPostsProcessingFailed()
     {
-        $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $post = factory(Post::class)->create();
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($post->user)
              ->assertTrue(Auth::check());
-        
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
-        
+
         // ファイルが登録されているかチェック
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
         
@@ -127,6 +103,9 @@ class CommentsControllerTest extends TestCase
             'post_id' => $post->id,
             'comment' => 'テキストテキスト',
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$post->post_photo);
     }
     
     /**
@@ -136,29 +115,13 @@ class CommentsControllerTest extends TestCase
      */
     public function commentCancelProcessingSuccessful()
     {
-      $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $comments = factory(Comment::class)->create();
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($comments->post->user)
              ->assertTrue(Auth::check());
         
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
-        
         // ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
-        
-        $comments = factory(Comment::class)->create([
-            'post_id'  => $post->id,
-            'user_id' => $user->id,
-        ]);
+        Storage::disk('public')->assertExists('post_images/'.$comments->post->post_photo);
         
         $url = route('comments.delete',$comments->id);
         $this->get($url)
@@ -170,6 +133,9 @@ class CommentsControllerTest extends TestCase
             'post_id' => $comments->post_id,
             'user_id' => $comments->user_id,
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$comments->post->post_photo);
     }
     
     /**
@@ -179,28 +145,13 @@ class CommentsControllerTest extends TestCase
      */
     public function commentCancelProcessingFailed()
     {
-      $user = factory(User::class)->create([
-            'password'  => bcrypt('secret')
-        ]);
+        $comments = factory(Comment::class)->create();
         $this->assertFalse(Auth::check());
-        $this->actingAs($user)
+        $this->actingAs($comments->post->user)
              ->assertTrue(Auth::check());
         
-        $file = UploadedFile::fake()->image(date('YmdHis'). '_' .'public.jpg');
-        Storage::disk('public')->putFileAs('post_images', $file, $file->getClientOriginalName(), 'public');
-        
-        $post = factory(Post::class)->create([
-            'user_id'  => $user->id,
-            'post_photo' => $file->getClientOriginalName(),
-        ]);
-        
         // ファイルが登録されているかチェック
-        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
-        
-        $comments = factory(Comment::class)->create([
-            'post_id'  => $post->id,
-            'user_id' => $user->id,
-        ]);
+        Storage::disk('public')->assertExists('post_images/'.$comments->post_photo);
         
         //$comments_idを空にしてgetリクエストで送信する。
         $comments_id = $comments->id;
@@ -216,5 +167,8 @@ class CommentsControllerTest extends TestCase
             'post_id' => $comments->post_id,
             'user_id' => $comments->user_id,
         ]);
+        
+        // テスト終了後ファイル削除
+        Storage::disk('public')->delete('post_images/'.$comments->post->post_photo);
     }
 }
