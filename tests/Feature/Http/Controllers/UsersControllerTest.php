@@ -304,5 +304,22 @@ class UsersControllerTest extends TestCase
                 'id' => $user->id,
                 'password' => '',
         ]);
-    }  
+    }
+
+    /**
+     * ログアウトに成功
+     *
+     * @test
+     */
+    public function logout()
+    {
+         $user = factory(User::class)->create();
+         $this->actingAs($user);
+         $this->assertTrue(Auth::check());
+         
+         // ログアウトを実行
+         $response = $this->post('logout');
+         $this->assertFalse(Auth::check());
+         $response->assertRedirect('/');
+    }
 }
