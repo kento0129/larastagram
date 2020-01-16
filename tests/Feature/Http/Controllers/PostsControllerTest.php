@@ -111,7 +111,7 @@ class PostsControllerTest extends TestCase
      */
     public function successfulDeletingPosts()
     {
-        $post = factory(Post::class)->create([]);
+        $post = factory(Post::class)->create();
         $this->actingAs($post->user);
         $this->assertTrue(Auth::check());
 
