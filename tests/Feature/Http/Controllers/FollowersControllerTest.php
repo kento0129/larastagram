@@ -137,7 +137,7 @@ class FollowersControllerTest extends TestCase
 
         // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('followers', [
-            // 'following_id' => $follower->following_id,
+            'following_id' => $follower->following_id,
             'followed_id' => $follower->followed_id,
         ]);
     }
