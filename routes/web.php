@@ -27,7 +27,7 @@ Route::group(['prefix' => 'users'], function() {
   Route::get('/password', 'UsersController@password')->name('users.password');
   //パスワード変更画面
   Route::post('/password/change', 'UsersController@change')->name('users.password.change');
-  // ユーザ詳細画面
+  //ユーザ詳細画面
   Route::get('/{user_id}', 'UsersController@show')->name('users');
     
 });
