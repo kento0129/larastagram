@@ -63,6 +63,9 @@
           {{ $user->name }}
         </p>
       </div>
+      <div class="row">
+        @include('user.user_information')
+      </div>
     </div>
   </div>
 </div>

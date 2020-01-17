@@ -1,5 +1,6 @@
 .profile-wrap {
   margin: 40px 0px;
+  width: 100%;
 }
 .round-img {
   border-radius: 50%;
@@ -57,4 +58,23 @@
 }
 .setting-modal-margin {
   margin-top: 130px;
+}
+.information-ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+}
+.information-ul > li {
+  font-size: 16px;
+  margin-right: 40px;
+}
+.information-ul > li:first-child {
+  margin-left: -40px;
+}
+.information-ul > li a {
+  color: black;
+  text-decoration: none;
+}
+.information-span {
+  font-weight: 600;
 }

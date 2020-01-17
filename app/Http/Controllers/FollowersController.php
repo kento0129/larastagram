@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Follower;
 use App\User;
+use App\Http\Controllers\Route;
 use Illuminate\Http\Request;
 
 class FollowersController extends Controller
@@ -22,8 +23,8 @@ class FollowersController extends Controller
         $follower->followed_id = $followed_id;
         $follower->save();
 
-        // 「/」 ルートにリダイレクト
-        return redirect('/');
+        //ユーザー詳細画面へ戻る
+        return back();
     }
     
     public function destroy($followed_id)
@@ -34,8 +35,8 @@ class FollowersController extends Controller
         $follower->where('following_id',Auth::user()->id)
                  ->where('followed_id',$followed_id)
                  ->delete();
-        
-        // 「/」 ルートにリダイレクト
-        return redirect('/');
+                 
+        //ユーザー詳細画面へ戻る
+        return back();
     }
 }

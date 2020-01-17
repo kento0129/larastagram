@@ -28,8 +28,14 @@ class UsersController extends Controller
         $follower = Follower::where('following_id',Auth::user()->id)
                             ->where('followed_id',$user_id)
                             ->first();
-            
-        return view('user/show', compact('user','follower'));
+        
+        $following_list = Follower::where('following_id',$user_id)
+                                   ->get();
+
+        $followed_list = Follower::where('followed_id',$user_id)
+                                   ->get();
+                                   
+        return view('user/show', compact('user','follower','following_list','followed_list'));
     }
     
     public function edit()
