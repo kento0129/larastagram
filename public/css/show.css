@@ -64,7 +64,7 @@
   list-style: none;
   flex-direction: row;
 }
-/*.information-ul > li {*/
+.information-ul > li {
   font-size: 16px;
   margin-right: 40px;
 }
