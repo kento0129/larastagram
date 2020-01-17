@@ -133,7 +133,7 @@ class UsersController extends Controller
         
         $user->password = bcrypt($request->new_password);
         $user->save();
-        
+        aa
         return redirect('/users/'.$request->id);
     }
 }
