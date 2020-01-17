@@ -54,3 +54,10 @@ Route::group(['prefix' => 'comments'], function() {
   //コメント取消処理
   Route::get('/delete/{comment_id}', 'CommentsController@destroy')->name('comments.delete');
 });
+
+Route::group(['prefix' => 'followers'], function() {
+  //フォロー登録処理
+  Route::get('/posts/{followed_id}','FollowersController@store')->name('followers.posts');
+  //フォロー取消処理
+  Route::get('/delete/{followed_id}', 'FollowersController@destroy')->name('followers.delete');
+});

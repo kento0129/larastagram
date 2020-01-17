@@ -15,7 +15,9 @@
           @endif
         </p>
       @else
+        <p>
           <img class="round-img" src="{{ asset('/images/blank_profile.png') }}"/>
+        </p>
       @endif
     </div>
     <div class="col-md-8">
@@ -26,6 +28,16 @@
               <a class="btn btn-outline-dark common-btn edit-profile-btn" href="/users/edit">プロフィールを編集</a>
               <button type="button" class="setting" data-toggle="modal" data-target="#exampleModal"></button>
             </div>
+          @else
+            @if (isset($follower))
+              <div class="d-flex">
+                <a class="btn btn-outline-dark common-btn follow-now-btn" href="/followers/delete/{{ $user->id }}">フォロー中</a>
+              </div>
+            @else (!isset($follower))
+              <div class="d-flex">
+                <a class="btn btn-primary common-btn follow-btn" href="/followers/posts/{{ $user->id }}">フォローする</a>
+              </div>
+            @endif
           @endif
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog setting-modal-margin" role="document">

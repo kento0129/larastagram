@@ -15,6 +15,24 @@
   border-color: #dbdbdb;
   font-size: 14px;
 }
+.follow-now-btn {
+  margin-top: 5px;
+  font-weight: bold;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  border-color: #dbdbdb;
+  font-size: 14px;
+}
+.follow-btn {
+  margin-top: 5px;
+  font-weight: bold;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  border-color: #007bff;
+  font-size: 14px;
+}
 .setting {
   background-image: url("/images/parts4.png");
   background-repeat: no-repeat;

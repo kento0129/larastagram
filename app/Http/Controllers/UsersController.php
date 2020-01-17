@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Validator;
+use App\Follower;
 use App\User;
 use App\Rules\AlphaNumeric;
 use App\Rules\DisagreementPassword;
@@ -23,8 +24,12 @@ class UsersController extends Controller
     {
         $user = User::where('id', $user_id)
                       ->firstOrFail();
+                      
+        $follower = Follower::where('following_id',Auth::user()->id)
+                            ->where('followed_id',$user_id)
+                            ->first();
             
-        return view('user/show', ['user' => $user]);
+        return view('user/show', compact('user','follower'));
     }
     
     public function edit()
