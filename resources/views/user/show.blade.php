@@ -29,11 +29,11 @@
               <button type="button" class="setting" data-toggle="modal" data-target="#exampleModal"></button>
             </div>
           @else
-            @if (isset($follower))
+            @if (isset($follow_status))
               <div class="d-flex">
                 <a class="btn btn-outline-dark common-btn follow-now-btn" href="/followers/delete/{{ $user->id }}">フォロー中</a>
               </div>
-            @else (!isset($follower))
+            @else (!isset($follow_status))
               <div class="d-flex">
                 <a class="btn btn-primary common-btn follow-btn" href="/followers/posts/{{ $user->id }}">フォローする</a>
               </div>

@@ -25,17 +25,11 @@ class UsersController extends Controller
         $user = User::where('id', $user_id)
                       ->firstOrFail();
                       
-        $follower = Follower::where('following_id',Auth::user()->id)
-                            ->where('followed_id',$user_id)
-                            ->first();
-        
-        $following_list = Follower::where('following_id',$user_id)
-                                   ->get();
-
-        $followed_list = Follower::where('followed_id',$user_id)
-                                   ->get();
-                                   
-        return view('user/show', compact('user','follower','following_list','followed_list'));
+        $follow_status = Follower::where('following_id',Auth::user()->id)
+                                   ->where('followed_id',$user_id)
+                                   ->first();
+ 
+        return view('user/show', compact('user','follow_status'));
     }
     
     public function edit()
