@@ -59,6 +59,13 @@
 .setting-modal-margin {
   margin-top: 130px;
 }
+.information-span1 {
+  color: #262626;
+}
+.information-span2 {
+  color: #262626;
+  font-weight: 600;
+}
 .information-ul {
   display: flex;
   list-style: none;
@@ -71,10 +78,27 @@
 .information-ul > li:first-child {
   margin-left: -40px;
 }
-.information-ul > li a {
-  color: black;
-  text-decoration: none;
+.information-xs-span1 {
+  text-align: center;
+  color: #999 !important;
 }
-.information-span {
+.information-xs-span2 {
+  display: block;
+  color: #262626;
   font-weight: 600;
+}
+.information-ul-xs {
+  justify-content: space-around;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  padding: 12px 0;
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  width: 100%;
+}
+.information-ul-xs > li {
+  font-size: 14px;
+  text-align: center;
+  width: 33.3%;
 }
