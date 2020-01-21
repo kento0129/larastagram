@@ -27,7 +27,7 @@ class UsersController extends Controller
                       
         $follow_status = Follower::where('following_id',Auth::user()->id)
                                    ->where('followed_id',$user_id)
-                                   ->first();
+                                   ->firstOrFail();
  
         return view('user/show', compact('user','follow_status'));
     }
