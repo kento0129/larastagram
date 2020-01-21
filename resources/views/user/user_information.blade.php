@@ -45,7 +45,7 @@
                 <div class="margin-left-10">
                   <div class="d-flex">
                     <div style="list-style: none;">
-                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follower->user_name}}aaaaa</a>
+                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follower->user_name}}</a>
                     </div>
                   </div>
                   <div>
