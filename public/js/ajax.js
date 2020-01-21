@@ -2,7 +2,7 @@ $(function() {
     //フォローするを選択した際の処理
     $(document).on('click', '.follow-ajax', function() {
         $.ajax({
-            url: "/followers/posts/ajax/"+$(this).val(),
+            url: "/followers/ajax/posts/"+$(this).val(),
             type: 'get',
             dataType: "html",
             headers: {
@@ -18,7 +18,7 @@ $(function() {
     //フォロー中を選択した際の処理
     $(document).on('click', '.follow-now-ajax', function() {
         $.ajax({
-            url: "/followers/delete/ajax/"+$(this).val(),
+            url: "/followers/ajax/delete/"+$(this).val(),
             type: 'get',
             dataType: "html",
             headers: {
