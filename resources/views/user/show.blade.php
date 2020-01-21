@@ -25,17 +25,17 @@
         <h1 class="omit-letter user-name-font">{{ $user->user_name }}&nbsp;</h1>
           @if ($user->id == Auth::user()->id)
             <div class="d-flex">
-              <a class="btn btn-outline-dark common-btn edit-profile-btn" href="/users/edit">プロフィールを編集</a>
+              <a class="btn btn-outline-dark common-btn edit-profile-btn" href="{{ route('users.edit') }}">プロフィールを編集</a>
               <button type="button" class="setting" data-toggle="modal" data-target="#exampleModal"></button>
             </div>
           @else
             @if (isset($follow_status))
               <div class="d-flex">
-                <a class="btn btn-outline-dark common-btn follow-now-btn" href="/followers/delete/{{ $user->id }}">フォロー中</a>
+                <a class="btn btn-outline-dark common-btn follow-now-btn" href="{{ route('followers.delete', ['followed_id' => $user->id]) }}">フォロー中</a>
               </div>
             @else
               <div class="d-flex">
-                <a class="btn btn-primary common-btn follow-btn" href="/followers/posts/{{ $user->id }}">フォローする</a>
+                <a class="btn btn-primary common-btn follow-btn" href="{{ route('followers.posts', ['followed_id' => $user->id]) }}">フォローする</a>
               </div>
             @endif
           @endif
@@ -51,7 +51,7 @@
               <div class="list-group text-center">
                 <a class="list-group-item list-group-item-action" rel="nofollow" data-method="POST" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
-                <a class="list-group-item list-group-item-action" href='/users/password'>パスワードを変更</a>
+                <a class="list-group-item list-group-item-action" href="{{ route('users.password') }}">パスワードを変更</a>
                 <a class="list-group-item list-group-item-action" data-dismiss="modal" href="#">キャンセル</a>
               </div>
             </div>

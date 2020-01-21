@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-md-auto align-items-center">
         <li>
-          <a class="nav-link commonNavIcon far fa-plus-square fa-lg" href="/posts/new"></a>
+          <a class="nav-link commonNavIcon far fa-plus-square fa-lg" href="{{ route('posts.new') }}"></a>
         </li>
         <li>
-          <a class="nav-link commonNavIcon far fa-user fa-lg" href="/users/{{ Auth::user()->id }}"></a>
+          <a class="nav-link commonNavIcon far fa-user fa-lg" href="{{ route('users', ['user_id' => Auth::user()->id]) }}"></a>
         </li>
       </ul>
     </div>

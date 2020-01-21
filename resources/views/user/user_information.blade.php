@@ -30,7 +30,7 @@
             <div>
               <li class="followers-li d-flex" value="{{ $follower->id }}">
                 <div class="d-flex align-items-center">
-                  <a class="no-text-decoration" href="/users/{{ $follower->id }}">
+                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">
                     @if ($follower->profile_photo)
                       @if (app()->isLocal() || app()->runningUnitTests())
                         <img class="followers-img" src="{{ asset('storage/user_images/' . $follower->profile_photo ) }}"/>
@@ -45,11 +45,11 @@
                 <div class="margin-left-10">
                   <div class="d-flex">
                     <div style="list-style: none;">
-                      <a class="followers-user-name no-text-decoration" href="/users/{{ $follower->id }}">{{ $follower->user_name}}</a>
+                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follower->user_name}}aaaaa</a>
                     </div>
                   </div>
                   <div>
-                    <a class="followers-name no-text-decoration" href="/users/{{ $follower->id }}">{{ $follower->name }}</a>
+                    <a class="followers-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follower->name }}</a>
                   </div>
                 </div>
                 <div class="followers-status">
@@ -101,7 +101,7 @@
             <div>
               <li class="followers-li d-flex" value="{{ $follow->id }}">
                 <div class="d-flex align-items-center">
-                  <a class="no-text-decoration" href="/users/{{ $follow->id }}">
+                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}>
                     @if ($follow->profile_photo)
                       @if (app()->isLocal() || app()->runningUnitTests())
                         <img class="followers-img" src="{{ asset('storage/user_images/' . $follow->profile_photo ) }}"/>
@@ -116,11 +116,11 @@
                 <div class="margin-left-10">
                   <div class="d-flex">
                     <div>
-                      <a class="followers-user-name no-text-decoration" href="/users/{{ $follow->id }}">{{ $follow->user_name}}</a>
+                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follow->user_name}}</a>
                     </div>
                   </div>
                   <div>
-                    <a class="followers-name no-text-decoration" href="/users/{{ $follow->id }}">{{ $follow->name }}</a>
+                    <a class="followers-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follow->name }}</a>
                   </div>
                 </div>
                 <div class="followers-status">
