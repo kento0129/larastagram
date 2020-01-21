@@ -101,7 +101,7 @@
             <div>
               <li class="followers-li d-flex" value="{{ $follow->id }}">
                 <div class="d-flex align-items-center">
-                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}>
+                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follow->id]) }}>
                     @if ($follow->profile_photo)
                       @if (app()->isLocal() || app()->runningUnitTests())
                         <img class="followers-img" src="{{ asset('storage/user_images/' . $follow->profile_photo ) }}"/>
@@ -116,17 +116,17 @@
                 <div class="margin-left-10">
                   <div class="d-flex">
                     <div>
-                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follow->user_name}}</a>
+                      <a class="followers-user-name no-text-decoration" href="{{ route('users', ['user_id' => $follow->id]) }}">{{ $follow->user_name}}</a>
                     </div>
                   </div>
                   <div>
-                    <a class="followers-name no-text-decoration" href="{{ route('users', ['user_id' => $follower->id]) }}">{{ $follow->name }}</a>
+                    <a class="followers-name no-text-decoration" href="{{ route('users', ['user_id' => $follow->id]) }}">{{ $follow->name }}</a>
                   </div>
                 </div>
                 <div class="followers-status">
                   @if(Auth::user()->follows->isEmpty())
                     @if($follow->id !== Auth::user()->id)
-                      <button class="btn btn-primary common-btn follow-btn follow-ajax" value="{{ $follower->id }}">フォローする</button>
+                      <button class="btn btn-primary common-btn follow-btn follow-ajax" value="{{ $follow->id }}">フォローする</button>
                     @else
                     @endif
                   @else
