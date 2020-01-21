@@ -23,11 +23,11 @@ class UsersController extends Controller
     public function show($user_id)
     {
         $user = User::where('id', $user_id)
-                      ->firstOrFail();
+                      ->first();
                       
         $follow_status = Follower::where('following_id',Auth::user()->id)
                                    ->where('followed_id',$user_id)
-                                   ->firstOrFail();
+                                   ->first();
  
         return view('user/show', compact('user','follow_status'));
     }
