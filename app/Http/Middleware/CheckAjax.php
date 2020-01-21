@@ -15,6 +15,11 @@ class CheckAjax
      */
     public function handle($request, Closure $next)
     {
+        // Ajaxアクセスでなければ404
+        if (!$request->ajax()) {
+            abort(404);
+        }
+
         return $next($request);
     }
 }

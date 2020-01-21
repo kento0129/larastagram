@@ -57,9 +57,9 @@ Route::group(['prefix' => 'comments'], function() {
 
 Route::group(['prefix' => 'followers'], function() {
   //フォロー登録処理ajax
-  Route::get('/posts/ajax/{followed_id}','FollowersController@ajaxStore')->name('followers.ajax.posts');
+  Route::get('/ajax/posts/{followed_id}','FollowersController@ajaxStore')->middleware('ajax')->name('followers.ajax.posts');
   //フォロー取消処理ajax
-  Route::get('/delete/ajax/{followed_id}', 'FollowersController@ajaxDestroy')->name('followers.ajax.delete');
+  Route::get('/ajax/delete/{followed_id}', 'FollowersController@ajaxDestroy')->middleware('ajax')->name('followers.ajax.delete');
   //フォロー登録処理
   Route::get('/posts/{followed_id}','FollowersController@store')->name('followers.posts');
   //フォロー取消処理
