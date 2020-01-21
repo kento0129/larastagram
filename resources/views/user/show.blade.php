@@ -33,7 +33,7 @@
               <div class="d-flex">
                 <a class="btn btn-outline-dark common-btn follow-now-btn" href="/followers/delete/{{ $user->id }}">フォロー中</a>
               </div>
-            @else (!isset($follow_status))
+            @else
               <div class="d-flex">
                 <a class="btn btn-primary common-btn follow-btn" href="/followers/posts/{{ $user->id }}">フォローする</a>
               </div>

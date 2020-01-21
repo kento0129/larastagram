@@ -39,4 +39,27 @@ class FollowersController extends Controller
         //ユーザー詳細画面へ戻る
         return back();
     }
+    
+    public function ajaxStore($followed_id)
+    {
+        // Followerモデル作成
+        $follower = new Follower;
+        $follower->following_id = Auth::user()->id;
+        $follower->followed_id = $followed_id;
+        $follower->save();
+        
+        return $followed_id;
+    }
+    
+    public function ajaxDestroy($followed_id)
+    {
+        $follower = Follower::where('followed_id',$followed_id)
+                              ->firstOrFail();
+
+        $follower->where('following_id',Auth::user()->id)
+                 ->where('followed_id',$followed_id)
+                 ->delete();
+                 
+        return $followed_id;
+    }
 }

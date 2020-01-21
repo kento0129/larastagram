@@ -69,10 +69,10 @@
 }
 
 .information {
-  &-span1 {
+  &-tag1 {
     color: #262626;
   }
-  &-span2 {
+  &-tag2 {
     color: #262626;
     font-weight: 600;
   }
@@ -86,17 +86,30 @@
       &:first-child {
         margin-left: -40px;
       }
+      a {
+        text-decoration: none;
+        color: #262626;
+      }
     }
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
+  .followers-modal-content {
+    max-height: 400px !important;
+  }
+  .followers-modal-margin {
+    margin-top: 200px;
+  }
+}
+
+@media screen and (max-width: 767px) {
   .information {
-    &-span1 {
-      text-align: center;
-      color: #999 !important;;
+    &-tag1 {
+      text-align: center ;
+      color: #999 !important;
     }
-    &-span2 {
+    &-tag2 {
       display: block;
       color: #262626;
       font-weight: 600;
@@ -117,6 +130,10 @@
         &:first-child {
         margin-left: 0px;
         }
+        a {
+          text-decoration: none;
+          color: #262626;
+        }
       }
     }
   }
@@ -129,3 +146,55 @@
     margin-left: 10px;
   }
 }
+
+.followers {
+  &-modal-content {
+    width:400px;
+  }
+  &-user-name {
+    color: #262626;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    text-decoration: none; 
+  }
+  &-name {
+    color: #262626;
+    text-decoration: none; 
+  }
+  &-li {
+    margin-left: 0px;
+    height: 46px;
+  }
+  &-status {
+    margin: 0 0 0 auto;
+  }
+  &-modal-title {
+    font-size: 16px;
+  }
+  &-modal-body {
+    padding-bottom: 0px;
+  }
+  &-ul {
+    list-style: none;
+    padding-left: 0px;
+  }
+  &-img {
+    border-radius: 50%;
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.margin-left-10 {
+  margin-left:10px;
+}
+
+.margin-0-auto {
+  margin:0 auto;
+}
+// a, a:visited {
+//   text-decoration: none !important;
+//   color: #262626;
+// }
