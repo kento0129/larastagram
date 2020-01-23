@@ -32,7 +32,7 @@ class UsersController extends Controller
  
         $posts = Post::where('user_id',$user_id)
                        ->orderBy('created_at', 'desc')
-                       ->paginate(10);
+                       ->paginate(12);
 
         return view('user/show', compact('user','follow_status','posts'));
     }
