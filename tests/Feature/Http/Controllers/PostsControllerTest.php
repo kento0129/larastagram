@@ -23,8 +23,16 @@ class PostsControllerTest extends TestCase
      */
     public function unauthenticatedWhenLoginScreenRedirect()
     {
+        $post = factory(Post::class)->create();
         $this->assertFalse(Auth::check());
+        
+        //投稿一覧画面
         $this->get('/')
+             ->assertRedirect('/login');
+        
+        //投稿写真画面
+        $url = route('posts.post_photo',$post->id);
+        $this->get($url)
              ->assertRedirect('/login');
     }
     
@@ -163,5 +171,37 @@ class PostsControllerTest extends TestCase
         
         // テスト終了後ファイル削除
         Storage::disk('public')->delete('post_images/'.$post->post_photo);
+    }
+    
+    /**
+     * 投稿写真画面の表示に成功
+     *
+     * @test
+     */
+    public function successfulDisplayPostsPhotoScreen()
+    {
+        $post = factory(Post::class)->create();
+        $this->assertFalse(Auth::check());
+        $this->actingAs($post->user)
+             ->assertTrue(Auth::check());
+        $url = route('posts.post_photo',$post->id);
+        $this->get($url)
+             ->assertStatus(200); 
+    }
+
+    /**
+     * 投稿写真画面の表示に失敗
+     *
+     * @test
+     */
+    public function failedDisplayPostsPhotoScreen()
+    {
+        $post = factory(Post::class)->create();
+        $this->assertFalse(Auth::check());
+        $this->actingAs($post->user)
+             ->assertTrue(Auth::check());
+        $url = route('posts.post_photo',null);
+        $this->get($url)
+             ->assertStatus(404); 
     }
 }
