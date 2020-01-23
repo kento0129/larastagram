@@ -3,6 +3,7 @@
 @include('footer')
 
 @section('content')
+<div class="scroll">
 @foreach ($posts as $post) 
   <div class="col-md-8 col-md-2 mx-auto">
     <div class="card-wrap">
@@ -78,4 +79,6 @@
     </div>
   </div>
 @endforeach
+{{$posts->links() }}
+</div>
 @endsection
