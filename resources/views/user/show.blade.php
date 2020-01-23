@@ -75,11 +75,13 @@
     @foreach($posts as $post)
      <div class="photo">
       <div class="inner">
+        <a href="{{ route('posts.post_photo', ['post_id' => $post->id]) }}">
           @if (app()->isLocal() || app()->runningUnitTests())
             <img src="{{ asset('storage/post_images/' . $post->post_photo) }}"/>
           @else
             <img src="{{ $post->post_photo }}"/>
           @endif
+        </a>
       </div>
      </div>
     @endforeach

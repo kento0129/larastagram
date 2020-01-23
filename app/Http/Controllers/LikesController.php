@@ -23,8 +23,7 @@ class LikesController extends Controller
         $like->user_id = Auth::user()->id;
         $like->save();
 
-        // 「/」 ルートにリダイレクト
-        return redirect('/');
+        return back();
     }
     
     public function destroy(Request $request)
@@ -32,7 +31,6 @@ class LikesController extends Controller
         $like = Like::findOrFail($request->like_id);
         $like->delete();
         
-        // 「/」 ルートにリダイレクト
-        return redirect('/');
+        return back();
     }
 }

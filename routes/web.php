@@ -33,6 +33,8 @@ Route::group(['prefix' => 'users'], function() {
 });
 
 Route::group(['prefix' => 'posts'], function() {
+  //投稿写真画面
+  Route::get('/post_photo/{post_id}', 'PostsController@postPhoto')->name('posts.post_photo');
   //投稿新規画面
   Route::get('/new', 'PostsController@new')->name('posts.new');
   //投稿新規処理

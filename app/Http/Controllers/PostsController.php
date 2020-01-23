@@ -31,6 +31,13 @@ class PostsController extends Controller
         return view('post/new');
     }
     
+    public function postPhoto($post_id)
+    {
+        $post = Post::findOrFail($post_id);
+                       
+        return view('post/post_photo', ['post' => $post]);
+    }
+    
     public function store(Request $request)
     {
         //バリデーション（入力値チェック）

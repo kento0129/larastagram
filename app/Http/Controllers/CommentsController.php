@@ -24,8 +24,7 @@ class CommentsController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->save();
 
-        // 「/」 ルートにリダイレクト
-        return redirect('/');
+        return back();
     }
     
     public function destroy(Request $request)
@@ -33,6 +32,6 @@ class CommentsController extends Controller
         $comment = Comment::findOrFail($request->comment_id);
         $comment->delete();
         
-        return redirect('/');
+        return back();
     }
 }

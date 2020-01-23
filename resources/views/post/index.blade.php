@@ -30,7 +30,7 @@
           	</a>
           @endif
         </div>
-        <a>
+        <a href="{{ route('posts.post_photo', ['post_id' => $post->id]) }}">
           @if (app()->isLocal() || app()->runningUnitTests())
             <img src="{{ asset('storage/post_images/' . $post->post_photo) }}" class="card-img-top" />
           @else
