@@ -101,7 +101,7 @@
             <div>
               <li class="followers-li d-flex" value="{{ $follow->id }}">
                 <div class="d-flex align-items-center">
-                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follow->id]) }}>
+                  <a class="no-text-decoration" href="{{ route('users', ['user_id' => $follow->id]) }}">
                     @if ($follow->profile_photo)
                       @if (app()->isLocal() || app()->runningUnitTests())
                         <img class="followers-img" src="{{ asset('storage/user_images/' . $follow->profile_photo ) }}"/>
