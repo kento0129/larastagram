@@ -96,8 +96,11 @@ footer {
   }
 }
 .profile-wrap {
-  margin: 40px 0px;
+  margin: 40px 0px 10px 0px;
   width: 100%;
+}
+.profile-image-top {
+  text-align: right;
 }
 .round-img {
   border-radius: 50%;
@@ -186,6 +189,15 @@ footer {
   .followers-modal-margin {
     margin-top: 200px;
   }
+  .profile-image {
+    margin-right: 20px;
+  }
+  .photogallery {
+    display: flex;
+    flex-wrap: wrap;
+    width: 85%;
+    margin: 0 auto;
+  }
 }
 @media screen and (max-width: 767px) {
   .information-tag1 {
@@ -224,6 +236,15 @@ footer {
   }
   .name-font {
     margin-left: 10px;
+  }
+  .profile-image-top {
+    text-align: center;
+  }
+  .photogallery {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto;
   }
 }
 .followers-modal-content {
@@ -268,6 +289,33 @@ footer {
 }
 .margin-0-auto {
   margin: 0 auto;
+}
+.photo {
+  position: relative;
+  width: 31%;
+  height: auto;
+  margin: 1%;
+  overflow: hidden;
+}
+.photo:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.inner img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 100%;
 }
 .profile-form-wrap {
   background: #fff;

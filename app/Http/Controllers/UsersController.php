@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Validator;
 use App\Follower;
+use App\Post;
 use App\User;
 use App\Rules\AlphaNumeric;
 use App\Rules\DisagreementPassword;
@@ -29,7 +30,11 @@ class UsersController extends Controller
                                    ->where('followed_id',$user_id)
                                    ->first();
  
-        return view('user/show', compact('user','follow_status'));
+        $posts = Post::where('user_id',$user_id)
+                       ->orderBy('created_at', 'desc')
+                       ->paginate(10);
+
+        return view('user/show', compact('user','follow_status','posts'));
     }
     
     public function edit()

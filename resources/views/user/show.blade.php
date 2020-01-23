@@ -5,18 +5,18 @@
 @section('content')
 <div class="profile-wrap">
   <div class="row">
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 profile-image-top">
       @if ($user->profile_photo)
         <p>
           @if (app()->isLocal() || app()->runningUnitTests())
-            <img class="round-img" src="{{ asset('storage/user_images/' . $user->profile_photo ) }}"/>
+            <img class="round-img profile-image" src="{{ asset('storage/user_images/' . $user->profile_photo ) }}"/>
           @else
-            <img class="round-img" src="{{ $user->profile_photo }}"/>
+            <img class="round-img profile-image" src="{{ $user->profile_photo }}"/>
           @endif
         </p>
       @else
         <p>
-          <img class="round-img" src="{{ asset('/images/blank_profile.png') }}"/>
+          <img class="round-img profile-image" src="{{ asset('/images/blank_profile.png') }}"/>
         </p>
       @endif
     </div>
@@ -68,5 +68,22 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="scroll">
+  <div class="photogallery">
+    @foreach($posts as $post)
+     <div class="photo">
+      <div class="inner">
+          @if (app()->isLocal() || app()->runningUnitTests())
+            <img src="{{ asset('storage/post_images/' . $post->post_photo) }}"/>
+          @else
+            <img src="{{ $post->post_photo }}"/>
+          @endif
+      </div>
+     </div>
+    @endforeach
+  </div>
+{{$posts->links() }}
 </div>
 @endsection
