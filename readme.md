@@ -52,6 +52,7 @@ http://{domain}/users/update | ユーザー更新画面 |
 http://{domain}/users/password | パスワード編集画面 |
 http://{domain}/users/password/change | パスワード変更画面 |
 http://{domain}/{user_id} | ユーザー詳細画面 |
+http://{domain}/posts/post_photo/{post_id} | 投稿写真画面 |
 http://{domain}/posts/new | 投稿新規画面 |
 http://{domain}/posts | 投稿新規処理 |
 http://{domain}/posts/delete/{post_id} | 投稿削除処理 |
@@ -59,3 +60,7 @@ http://{domain}/likes/posts/{post_id} | いいね処理 |
 http://{domain}/likes/delete/{like_id} | いいね取消処理 |
 http://{domain}/comments/posts/{post_id} | コメント投稿処理 |
 http://{domain}/comments/delete/{comment_id} | コメント取消処理 |
+http://{domain}/followers/posts/{followed_id} | フォロー登録処理 |
+http://{domain}/followers/delete/{followed_id} | フォロー取消処理 |
+http://{domain}/followers/ajax/posts/{followed_id} | フォロー登録処理ajax |
+http://{domain}/followers/ajax/delete/{followed_id} | フォロー取消処理ajax |
