@@ -70,7 +70,7 @@
   </div>
 </div>
 
-<div class="sscroll">
+<div class="scroll">
   <div class="photogallery">
     @foreach($posts as $post)
      <div class="photo">
