@@ -22,7 +22,7 @@
         <strong>{{ $post->user->user_name }}</strong>
       </a>
       @if ($post->user->id == Auth::user()->id)
-      	<a class="ml-auto mx-0 my-auto" rel="nofollow" href="{{ route('posts.delete', ['post_id' => $post->id]) }}">
+      	<a class="ml-auto mx-0 my-auto" rel="nofollow" data-toggle="modal" data-target="#deleteModal">
           <div class="delete-post-icon">
           </div>
       	</a>
@@ -75,5 +75,23 @@
     </div>
   </div>
  </div>
+</div>
+
+<!--投稿削除モーダル-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalrTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalTitle">投稿を削除しますか？</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="list-group text-center">
+        <a class="list-group-item list-group-item-action delete-yes" href="{{ route('posts.delete', ['post_id' => $post->id]) }}">はい</a>
+        <a class="list-group-item list-group-item-action" data-dismiss="modal" href="#">いいえ</a>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
