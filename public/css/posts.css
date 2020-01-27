@@ -72,3 +72,7 @@
   margin: 5px 0 0 10px;
   background-size: 11px !important;
 }
+.delete-post-yes {
+  color: red;
+  font-weight: bold;
+}
