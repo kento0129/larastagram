@@ -88,7 +88,7 @@
         </button>
       </div>
       <div class="list-group text-center">
-        <a class="list-group-item list-group-item-action delete-post-yes" href="{{ route('posts.delete', ['post_id' => $post->id]) }}">はい</a>
+        <a class="list-group-item list-group-item-action no-text-decoration" href="{{ route('posts.delete', ['post_id' => $post->id]) }}"><span class="delete-post-yes">はい</span></a>
         <a class="list-group-item list-group-item-action" data-dismiss="modal" href="#">いいえ</a>
       </div>
     </div>
