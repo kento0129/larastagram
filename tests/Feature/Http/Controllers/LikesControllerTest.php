@@ -39,6 +39,34 @@ class LikesControllerTest extends TestCase
     }
     
     /**
+     * ajax処理の失敗
+     *
+     * @test
+     */
+    public function ajaxProcessingFailed()
+    {
+        $post = factory(Post::class)->create();
+        $like = factory(Like::class)->create();
+        
+        $this->assertFalse(Auth::check());
+        $this->actingAs($post->user)
+             ->assertTrue(Auth::check());
+
+        // ファイルが登録されているかチェック
+        Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
+        
+        // いいね処理
+        $url = route('likes.posts',$post->id);
+        $this->get($url)
+             ->assertStatus(404);
+        
+        // いいね取消処理
+        $url = route('likes.delete',$like->id);
+        $this->get($url)
+             ->assertStatus(404);
+    }
+    
+    /**
      * いいね処理に成功
      *
      * @test
@@ -55,8 +83,8 @@ class LikesControllerTest extends TestCase
         Storage::disk('public')->assertExists('post_images/'.$post->post_photo);
         
         $url = route('likes.posts',$post->id);
-        $this->get($url)
-             ->assertRedirect('/');
+        $this->getAjax($url)
+             ->assertStatus(200);
 
         // データベースに値が登録されているかチェック
         $this->assertDatabaseHas('likes', [
@@ -89,7 +117,7 @@ class LikesControllerTest extends TestCase
         $post_id = '';
 
         $url = route('likes.posts',$post_id);
-        $this->get($url)
+        $this->getAjax($url)
              ->assertStatus(404);
 
         // データベースに値が登録されていないかチェック
@@ -117,8 +145,8 @@ class LikesControllerTest extends TestCase
         Storage::disk('public')->assertExists('post_images/'.$like->post->post_photo);
         
         $url = route('likes.delete',$like->id);
-        $this->get($url)
-             ->assertRedirect('/');
+        $this->getAjax($url)
+             ->assertStatus(200);
 
         // データベースに値が登録されていないかチェック
         $this->assertDatabaseMissing('likes', [
@@ -150,7 +178,7 @@ class LikesControllerTest extends TestCase
         $like_id = '';
   
         $url = route('likes.delete',$like_id);
-        $this->get($url)
+        $this->getAjax($url)
              ->assertStatus(404);
 
         // データベースに値が登録されているかチェック
