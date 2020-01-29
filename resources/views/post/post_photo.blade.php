@@ -40,15 +40,17 @@
       <div class="row parts">
         <div id="like-icon-post-{{ $post->id }}">
           @if ($post->likedBy(Auth::user())->count() > 0)
-            <a class="loved hide-text" data-remote="true" rel="nofollow" data-method="DELETE" href="{{ route('likes.delete', ['like_id' => $post->likedBy(Auth::user())->firstOrFail()->id]) }}">いいねを取り消す</a>
+            <a class="loved hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->likedBy(Auth::user())->firstOrFail()->id }}">いいねを取り消す</a>
           @else
-            <a class="love hide-text" data-remote="true" rel="nofollow" data-method="POST" href="{{ route('likes.posts', ['post_id' => $post->id]) }}">いいね</a>
+            <a class="love hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->id }}">いいね</a>
           @endif
         </div>
         <a class="comment"></a>
       </div>
       <div id="like-text-post-{{ $post->id }}">
-        @include('post.like_text')
+        <div>
+          @include('post.like_text')
+        </div>
       </div>
       <div>
         <span>

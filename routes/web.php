@@ -45,9 +45,9 @@ Route::group(['prefix' => 'posts'], function() {
 
 Route::group(['prefix' => 'likes'], function() {
   //いいね処理
-  Route::get('/posts/{post_id}', 'LikesController@store')->name('likes.posts');
+  Route::get('/posts/{post_id}', 'LikesController@store')->middleware('ajax')->name('likes.posts');
   //いいね取消処理
-  Route::get('/delete/{like_id}', 'LikesController@destroy')->name('likes.delete');
+  Route::get('/delete/{like_id}', 'LikesController@destroy')->middleware('ajax')->name('likes.delete');
 });
 
 Route::group(['prefix' => 'comments'], function() {
