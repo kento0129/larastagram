@@ -46,7 +46,7 @@ $(function() {
             var like_icon = $("#like-icon-post-"+post.post_id);
             var like_text = $("#like-text-post-"+post.post_id);
             like_icon.children('.love').remove();
-            like_icon.append("<a class='loved hide-text' data-remote='true' rel='nofollow' data-value='" + post.like_id + "'>いいねを取り消す</a>");
+            like_icon.append("<div class='loved hide-text' data-remote='true' rel='nofollow' data-value='" + post.like_id + "'>いいねを取り消す</div>");
             like_text.children().remove();
             like_text.append(post.text);
         })
@@ -66,7 +66,7 @@ $(function() {
             var like_icon = $("#like-icon-post-"+post.post_id);
             var like_text = $("#like-text-post-"+post.post_id);
             like_icon.children('.loved').remove();
-            like_icon.append("<a class='love hide-text' data-remote='true' rel='nofollow' data-value='" + post.post_id + "'>いいね</a>");
+            like_icon.append("<div class='love hide-text' data-remote='true' rel='nofollow' data-value='" + post.post_id + "'>いいね</div>");
             like_text.children().remove();
             like_text.append(post.text);
         })
