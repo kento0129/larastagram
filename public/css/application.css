@@ -354,6 +354,7 @@ footer {
   background-repeat: no-repeat;
   height: 36px;
   width: 36px;
+  cursor: pointer;
   background-size: 36px !important;
 }
 .comment {
@@ -387,6 +388,7 @@ footer {
   background-repeat: no-repeat;
   height: 36px;
   width: 36px;
+  cursor: pointer;
   background-size: 36px !important;
 }
 .hide-text {

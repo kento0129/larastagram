@@ -58,9 +58,9 @@
           <div class="row parts">
             <div id="like-icon-post-{{ $post->id }}">
               @if ($post->likedBy(Auth::user())->count() > 0)
-                <a class="loved hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->likedBy(Auth::user())->firstOrFail()->id }}">いいねを取り消す</a>
+                <div class="loved hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->likedBy(Auth::user())->firstOrFail()->id }}">いいねを取り消す</div>
               @else
-                <a class="love hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->id }}">いいね</a>
+                <div class="love hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->id }}">いいね</div>
               @endif
             </div>
             <a class="comment"></a>
