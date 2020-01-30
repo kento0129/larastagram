@@ -46,14 +46,13 @@
             </div>
           @endif
         </div>
-        <a href="{{ route('posts.post_photo', ['post_id' => $post->id]) }}">
-          @if (app()->isLocal() || app()->runningUnitTests())
-            <img src="{{ asset('storage/post_images/' . $post->post_photo) }}" class="card-img-top" />
-          @else
-            <img src="{{ $post->post_photo }}" class="card-img-top" />
-          @endif
-        </a>
         
+        @if (app()->isLocal() || app()->runningUnitTests())
+          <img src="{{ asset('storage/post_images/' . $post->post_photo) }}" class="card-img-top" />
+        @else
+          <img src="{{ $post->post_photo }}" class="card-img-top" />
+        @endif
+
         <div class="card-body">
           <div class="row parts">
             <div id="like-icon-post-{{ $post->id }}">
@@ -63,7 +62,7 @@
                 <div class="love hide-text" data-remote="true" rel="nofollow" data-value="{{ $post->id }}">いいね</div>
               @endif
             </div>
-            <a class="comment"></a>
+            <a class="comment" href="{{ route('posts.post_photo', ['post_id' => $post->id]) }}"></a>
           </div>
           <div id="like-text-post-{{ $post->id }}">
             <div>
